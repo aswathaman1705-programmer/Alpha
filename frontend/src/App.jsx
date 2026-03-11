@@ -398,7 +398,7 @@ function App() {
       const res = await axios.get(`${API_BASE}/aqi/combined/${targetCity}?days=${days}`);
       if (res.data.status === "success") {
         const d = res.data.data;
-        const currentData = { ...d.current, forecast24h: d.forecast };
+        const currentData = { ...d.current, city: targetCity, forecast24h: d.forecast };
         setAqiData(currentData);
         setTrendData(d.trend);
         setForecastSource(d.sources);

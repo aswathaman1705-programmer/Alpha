@@ -53,16 +53,37 @@ function HealthRisks({ aqiData, city, API_BASE }) {
     setLoading(true);
 
     let healthData = null;
-    if (aqiData) {
+    // CRITICAL: Only use aqiData if it actually belongs to the current city
+    if (aqiData && aqiData.city === city) {
        const val = aqiData.aqi;
-       const riskStatus = val <= 50 ? "Minimal Risk" : val <= 100 ? "Caution Advised" : val <= 150 ? "Unhealthy for Sensitive Groups" : val <= 200 ? "Health Warning" : "Hazardous Stagnation";
+       const category = aqiData.category || "";
+       
+       let riskStatus = "Unknown";
+       let shortEffect = "Awaiting biometric data.";
+       
+       if (val <= 50) {
+         riskStatus = "Minimal Risk";
+         shortEffect = "Normal atmospheric conditions for most people.";
+       } else if (val <= 100) {
+         riskStatus = "Caution Advised";
+         shortEffect = "Slight atmospheric haze. Sensitive groups may feel minor irritation.";
+       } else if (val <= 150) {
+         riskStatus = "Sensitive Alert";
+         shortEffect = "Particulate levels are rising. Noticeable impact on breathing.";
+       } else if (val <= 200) {
+         riskStatus = "Health Warning";
+         shortEffect = "High toxicity detected. Immediate health impact for most residents.";
+       } else {
+         riskStatus = "Hazardous Stagnation";
+         shortEffect = "Immediate respirator mandatory. Extreme atmospheric toxicity.";
+       }
        
        healthData = {
          aqi: val,
          risk_status: riskStatus,
          effects: {
-            short_term: val > 150 ? "Immediate cough and lung irritation." : "Normal atmospheric conditions for most people.",
-            long_term: "Prolonged exposure may impact respiratory health."
+            short_term: shortEffect,
+            long_term: "Prolonged exposure may impact respiratory health permanently."
          },
          risks: {
             respiratory: val > 100 ? ["Increased asthma risk", "Lining inflammation"] : ["No known risks"],
