@@ -125,13 +125,13 @@ function Dashboard({ aqiData, trendData, forecastSource = {}, onRangeChange, cur
       <motion.div {...fadeIn} className="lg:col-span-4 space-y-8">
         <div 
           onClick={() => navigate("/why")}
-          className="glass-panel p-10 flex flex-col items-center justify-center text-center relative overflow-hidden group border-b-8 cursor-pointer active:scale-[0.98] transition-all" 
+          className="glass-panel p-6 lg:p-10 flex flex-col items-center justify-center text-center relative overflow-hidden group border-b-8 cursor-pointer active:scale-[0.98] transition-all" 
           style={{ borderBottomColor: AQI_COLOR }}
         >
           <div className="absolute inset-0 bg-white/5 opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none" />
-          <h2 className="text-slate-500 uppercase tracking-[0.4em] text-[10px] font-black mb-10">Air Status Now in {currentCity}</h2>
+          <h2 className="text-slate-500 uppercase tracking-[0.4em] text-[10px] font-black mb-8 lg:mb-10">Air Status Now in {currentCity}</h2>
           
-          <div className="relative w-64 h-64 flex items-center justify-center">
+          <div className="relative w-48 h-48 sm:w-64 sm:h-64 flex items-center justify-center">
              <div className="absolute inset-0 rounded-full border border-white/5 animate-ping opacity-20" />
              <div className="absolute inset-4 rounded-full border-2 border-dashed border-white/10 animate-spin-slow" />
              <div className="z-10 flex flex-col items-center">
@@ -151,8 +151,8 @@ function Dashboard({ aqiData, trendData, forecastSource = {}, onRangeChange, cur
           <p className="mt-6 text-[10px] font-bold text-slate-600 uppercase tracking-widest">Click to see why →</p>
         </div>
 
-        <div className="glass-panel p-8">
-          <div className="flex justify-between items-center mb-10">
+        <div className="glass-panel p-6 lg:p-8">
+          <div className="flex justify-between items-center mb-8 lg:mb-10">
             <h3 className="text-xs font-black uppercase tracking-[0.3em] text-white/40 flex items-center gap-2 text-brand-blue">
                Dust & Gases
             </h3>
@@ -173,12 +173,12 @@ function Dashboard({ aqiData, trendData, forecastSource = {}, onRangeChange, cur
       </motion.div>
 
       {/* RIGHT COLUMN - CHARTS & WARNINGS */}
-      <motion.div {...fadeIn} transition={{ delay: 0.1 }} className="lg:col-span-8 space-y-8">
-        <div className="glass-panel p-8 min-h-[450px] flex flex-col relative">
-          <div className="flex justify-between items-start mb-10">
+      <motion.div {...fadeIn} transition={{ delay: 0.1 }} className="lg:col-span-8 space-y-6 lg:space-y-8">
+        <div className="glass-panel p-6 lg:p-8 min-h-[450px] flex flex-col relative">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-8 lg:mb-10 gap-4">
             <div>
-              <div className="flex items-center gap-3 mb-2">
-                <h2 className="text-3xl font-black text-white italic tracking-tighter uppercase whitespace-nowrap">History & Trends</h2>
+              <div className="flex flex-wrap items-center gap-2 lg:gap-3 mb-2">
+                <h2 className="text-2xl lg:text-3xl font-black text-white italic tracking-tighter uppercase whitespace-nowrap">History & Trends</h2>
                 <div className="flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20">
                    <div className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_#10b981]" />
                    <span className="text-[8px] font-black text-emerald-500 uppercase tracking-widest">Live Online Data</span>
@@ -263,8 +263,8 @@ function Dashboard({ aqiData, trendData, forecastSource = {}, onRangeChange, cur
         </div>
         
         {/* NEXT 24H PREDICTION CARD */}
-        <motion.div {...fadeIn} className="glass-panel p-8 relative overflow-hidden group">
-          <div className="flex justify-between items-center mb-6">
+        <motion.div {...fadeIn} className="glass-panel p-6 lg:p-8 relative overflow-hidden group">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-6 gap-4">
             <div>
               <h3 className="text-xs font-black uppercase text-white tracking-widest">Next 24 Hours Prediction</h3>
               <p className="text-[9px] text-slate-500 font-bold uppercase tracking-widest mt-1">AI-Powered Online Forecast · {currentCity}</p>
@@ -292,10 +292,10 @@ function Dashboard({ aqiData, trendData, forecastSource = {}, onRangeChange, cur
           </div>
         </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="grid grid-cols-1 flex-col sm:grid-cols-2 gap-6 lg:gap-8">
           <div 
             onClick={() => navigate("/health")}
-            className="glass-panel p-8 border-t-4 border-t-brand-red group cursor-pointer active:scale-[0.98] transition-all overflow-hidden relative"
+            className="glass-panel p-6 lg:p-8 border-t-4 border-t-brand-red group cursor-pointer active:scale-[0.98] transition-all overflow-hidden relative"
           >
             <div className="absolute top-0 right-0 p-4 opacity-5 group-hover:opacity-20 transition-opacity">
                <HeartIcon className="w-32 h-32 text-brand-red" />
@@ -311,7 +311,7 @@ function Dashboard({ aqiData, trendData, forecastSource = {}, onRangeChange, cur
 
           <div 
             onClick={handleAiThink}
-            className="glass-panel p-8 border-t-4 border-t-brand-blue group cursor-pointer active:scale-[0.98] transition-all relative overflow-hidden"
+            className="glass-panel p-6 lg:p-8 border-t-4 border-t-brand-blue group cursor-pointer active:scale-[0.98] transition-all relative overflow-hidden"
           >
             <div className="w-16 h-16 rounded-3xl bg-brand-blue/10 flex items-center justify-center mb-8 ring-1 ring-brand-blue/20 group-hover:bg-brand-blue transition-all">
                <CpuChipIcon className={`w-8 h-8 text-brand-blue group-hover:text-black ${isThinking ? 'animate-spin' : ''}`} />
@@ -344,7 +344,7 @@ function Dashboard({ aqiData, trendData, forecastSource = {}, onRangeChange, cur
             >
               {/* MODAL HEADER */}
               <div 
-                className="p-8 border-b border-white/5 flex items-center justify-between shrink-0"
+                className="p-5 lg:p-8 border-b border-white/5 flex items-center justify-between shrink-0"
                 style={{ background: `linear-gradient(135deg, ${(aiAnalysis.color || '#54A0FF')}10, transparent)` }}
               >
                 <div className="flex items-center gap-4">
@@ -364,7 +364,7 @@ function Dashboard({ aqiData, trendData, forecastSource = {}, onRangeChange, cur
               </div>
 
               {/* MODAL BODY */}
-              <div className="flex-1 overflow-y-auto p-8 space-y-8 custom-scrollbar">
+              <div className="flex-1 overflow-y-auto p-5 lg:p-8 space-y-6 lg:space-y-8 custom-scrollbar">
                 {aiAnalysis.causes && aiAnalysis.causes.length > 0 && (
                   <div>
                     <p className="text-[9px] font-black uppercase text-slate-500 tracking-widest mb-3">Dominant Factors</p>

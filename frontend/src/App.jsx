@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import { BrowserRouter as Router, Routes, Route, Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
-import { MapPinIcon, ShieldCheckIcon, ChartBarIcon, BeakerIcon, ClockIcon, Squares2X2Icon, PresentationChartLineIcon, AdjustmentsHorizontalIcon, XMarkIcon, HomeIcon } from "@heroicons/react/24/outline";
+import { MapPinIcon, ShieldCheckIcon, ChartBarIcon, BeakerIcon, ClockIcon, Squares2X2Icon, PresentationChartLineIcon, AdjustmentsHorizontalIcon, XMarkIcon, HomeIcon, Bars3Icon } from "@heroicons/react/24/outline";
 import axios from "axios";
 
 // Standard Components
@@ -17,7 +17,7 @@ import Hero from "./components/Hero";
 
 const API_BASE = import.meta.env.VITE_API_BASE || "http://localhost:8000";
 
-function Sidebar({ currentCity, setCurrentCity, cities, citiesWithAqi }) {
+function Sidebar({ currentCity, setCurrentCity, cities, citiesWithAqi, mobileMenuOpen, setMobileMenuOpen }) {
   const [searchTerm, setSearchTerm] = useState("");
   const [showSearch, setShowSearch] = useState(false);
   const [aqiFilter, setAqiFilter] = useState("all");
@@ -82,9 +82,17 @@ function Sidebar({ currentCity, setCurrentCity, cities, citiesWithAqi }) {
   ];
 
   return (
-    <aside className="sticky top-0 h-screen w-80 z-[1000] border-r border-white/5 flex flex-col glass-panel !rounded-none !bg-slate-950/40 shrink-0">
-      {/* BRANDING SECTION */}
-      <Link to="/" className="p-8 border-b border-white/5 block hover:bg-white/[0.02] transition-colors cursor-pointer relative group">
+    <>
+      {/* Mobile Backdrop */}
+      {mobileMenuOpen && (
+        <div 
+          className="md:hidden fixed inset-0 bg-black/60 z-[990] backdrop-blur-sm" 
+          onClick={() => setMobileMenuOpen(false)} 
+        />
+      )}
+      <aside className={`fixed md:sticky top-0 left-0 h-[100dvh] w-[85%] max-w-[320px] md:w-80 z-[1000] border-r border-white/5 flex flex-col glass-panel !rounded-none !bg-slate-950/95 md:!bg-slate-950/40 shrink-0 transition-transform duration-300 ${mobileMenuOpen ? "translate-x-0" : "-translate-x-full md:translate-x-0"}`}>
+        {/* BRANDING SECTION */}
+        <Link to="/" onClick={() => setMobileMenuOpen(false)} className="p-6 md:p-8 border-b border-white/5 block hover:bg-white/[0.02] transition-colors cursor-pointer relative group">
         <div className="flex items-center gap-4 mb-6">
           <div className="w-12 h-12 bg-white/5 rounded-2xl flex items-center justify-center border border-white/10 relative group-hover:border-brand-blue/30 overflow-hidden transition-colors">
             <div className="absolute inset-0 bg-brand-blue/20 blur-xl opacity-50 group-hover:opacity-100 transition-opacity" />
@@ -106,7 +114,8 @@ function Sidebar({ currentCity, setCurrentCity, cities, citiesWithAqi }) {
         </div>
         {navItems.map(item => (
           <Link key={item.path} to={item.path} 
-            className={`w-full px-6 py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-4 border ${
+            onClick={() => setMobileMenuOpen(false)}
+            className={`w-full px-4 md:px-6 py-3 md:py-4 rounded-2xl text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-4 border ${
               location.pathname === item.path 
               ? "bg-white/10 text-brand-blue border-white/10 shadow-[0_10px_30px_rgba(0,243,255,0.05)]" 
               : "text-slate-500 hover:text-white border-transparent hover:bg-white/5"
@@ -161,7 +170,7 @@ function Sidebar({ currentCity, setCurrentCity, cities, citiesWithAqi }) {
               initial={{ y: -30, opacity: 0 }}
               animate={{ y: 0, opacity: 1 }}
               transition={{ delay: 0.05, duration: 0.22 }}
-              className="shrink-0 px-12 pt-14 pb-8"
+              className="shrink-0 px-4 pt-8 md:px-12 md:pt-14 pb-6 md:pb-8 mt-12 md:mt-0"
               onClick={e => e.stopPropagation()}
             >
               <p className="text-[10px] font-black text-brand-blue uppercase tracking-[0.5em] mb-3">Alpha Node Directory</p>
@@ -218,7 +227,7 @@ function Sidebar({ currentCity, setCurrentCity, cities, citiesWithAqi }) {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.1 }}
               ref={scrollRef}
-              className="flex-1 overflow-y-auto px-12 pb-12 custom-scrollbar"
+              className="flex-1 overflow-y-auto px-4 pb-4 md:px-12 md:pb-12 custom-scrollbar"
               onClick={e => e.stopPropagation()}
             >
               {filteredCities.length > 0 ? (
@@ -306,7 +315,7 @@ function Sidebar({ currentCity, setCurrentCity, cities, citiesWithAqi }) {
             </motion.div>
 
             {/* ── FOOTER ── */}
-            <div className="shrink-0 px-12 py-5 border-t border-white/5 flex items-center justify-between">
+            <div className="shrink-0 px-4 py-4 md:px-12 md:py-5 border-t border-white/5 flex items-center justify-between mt-auto">
               <span className="text-[9px] font-black text-slate-700 uppercase tracking-[0.3em]">
                 {cities.length} cities in network
               </span>
@@ -321,11 +330,13 @@ function Sidebar({ currentCity, setCurrentCity, cities, citiesWithAqi }) {
           </motion.div>
         )}
       </AnimatePresence>, document.body)}
-    </aside>
+      </aside>
+    </>
   );
 }
 
 function App() {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [city, setCity] = useState("Chennai");
   const [cities, setCities] = useState([]);
   const [citiesWithAqi, setCitiesWithAqi] = useState(null);
@@ -406,7 +417,23 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen bg-[#030712] flex">
+      <div className="min-h-[100dvh] bg-[#030712] flex flex-col md:flex-row w-full overflow-x-hidden">
+        {/* MOBILE HEADER */}
+        <div className="md:hidden sticky top-0 z-[900] flex items-center justify-between p-4 glass-panel !rounded-none !bg-slate-950/80 border-b border-white/5 backdrop-blur-xl">
+          <div className="flex items-center gap-3">
+             <div className="w-8 h-8 bg-white/5 rounded-xl flex items-center justify-center border border-white/10">
+               <ShieldCheckIcon className="w-5 h-5 text-brand-blue" />
+             </div>
+             <h1 className="text-xl font-black italic uppercase text-white tracking-tighter">ALPHA</h1>
+          </div>
+          <button 
+            onClick={() => setMobileMenuOpen(true)}
+            className="p-2 border border-white/10 rounded-xl bg-white/5 hover:bg-white/10 transition-colors"
+          >
+            <Bars3Icon className="w-6 h-6 text-white" />
+          </button>
+        </div>
+
         {/* HIGH-END ATMOSPHERIC BACKGROUND SYSTEM */}
         <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
           <div className="absolute inset-0 opacity-[0.4]" style={{ backgroundImage: 'radial-gradient(circle at 50% 50%, #0f172a 0%, #030712 100%)' }} />
@@ -421,9 +448,9 @@ function App() {
           <div className="absolute inset-0 opacity-[0.05]" style={{ backgroundImage: 'linear-gradient(rgba(0, 243, 255, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 243, 255, 0.1) 1px, transparent 1px)', backgroundSize: '80px 80px' }} />
         </div>
         
-        <Sidebar currentCity={city} setCurrentCity={setCity} cities={cities} citiesWithAqi={citiesWithAqi} />
+        <Sidebar currentCity={city} setCurrentCity={setCity} cities={cities} citiesWithAqi={citiesWithAqi} mobileMenuOpen={mobileMenuOpen} setMobileMenuOpen={setMobileMenuOpen} />
 
-        <main className="flex-1 relative z-10 px-10 py-16 scroll-smooth">
+        <main className="flex-1 relative z-10 px-4 py-6 md:px-10 md:py-16 scroll-smooth w-full">
           <AnimatePresence mode="wait">
             <Routes>
               <Route path="/" element={<Hero />} />
@@ -439,17 +466,17 @@ function App() {
         </main>
 
         {/* PHYSICAL STATUS BAR - Stable Bottom Right (formerly watermark) */}
-        <div className="fixed bottom-0 right-0 z-50 p-6 pointer-events-auto">
-          <div className="glass-panel px-6 py-4 border border-white/10 shadow-[0_-20px_50px_rgba(0,0,0,0.4)] flex flex-col items-end gap-1.5 bg-slate-950/80 backdrop-blur-3xl rounded-tl-3xl">
-             <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-[0.4em] text-brand-blue">
-                <span className="w-2 h-2 rounded-full bg-brand-blue animate-pulse shadow-[0_0_10px_rgba(0,243,255,0.8)]" />
+        <div className="fixed bottom-0 right-0 z-50 p-4 md:p-6 pointer-events-auto hidden sm:block">
+          <div className="glass-panel px-4 py-3 md:px-6 md:py-4 border border-white/10 shadow-[0_-20px_50px_rgba(0,0,0,0.4)] flex flex-col items-end gap-1.5 bg-slate-950/80 backdrop-blur-3xl rounded-tl-3xl">
+             <div className="flex items-center gap-2 md:gap-3 text-[8px] md:text-[10px] font-black uppercase tracking-[0.4em] text-brand-blue">
+                <span className="w-1.5 h-1.5 md:w-2 md:h-2 rounded-full bg-brand-blue animate-pulse shadow-[0_0_10px_rgba(0,243,255,0.8)]" />
                 Satellite Sync Active
-                <div className="w-12 h-px bg-brand-blue/30" />
+                <div className="hidden md:block w-12 h-px bg-brand-blue/30" />
              </div>
-             <div className="text-[10px] font-black text-slate-500 flex gap-4 uppercase tracking-[0.3em]">
-                <span className="text-brand-blue/60 italic">STATION_ALPHA //</span>
-                <span>LAT: 20.5° N</span>
-                <span>LON: 78.9° E</span>
+             <div className="text-[8px] md:text-[10px] font-black text-slate-500 flex gap-2 md:gap-4 uppercase tracking-[0.2em] md:tracking-[0.3em]">
+                <span className="text-brand-blue/60 italic">STATION_ALPHA</span>
+                <span className="hidden md:inline">// LAT: 20.5° N</span>
+                <span className="hidden md:inline">LON: 78.9° E</span>
              </div>
           </div>
         </div>
