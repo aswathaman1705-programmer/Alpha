@@ -42,18 +42,22 @@ function Accordion({ title, children, color }) {
 function HealthRisks({ aqiData, city, API_BASE }) {
   const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isThinking, setIsThinking] = useState(true);
 
   useEffect(() => {
     fetchHealthData();
   }, [city]);
 
   const fetchHealthData = async () => {
+    setIsThinking(true);
+    setLoading(true);
+
+    let healthData = null;
     if (aqiData) {
-       // Shared source of truth eliminates mismatch — map to correct risk level
        const val = aqiData.aqi;
        const riskStatus = val <= 50 ? "Minimal Risk" : val <= 100 ? "Caution Advised" : val <= 150 ? "Unhealthy for Sensitive Groups" : val <= 200 ? "Health Warning" : "Hazardous Stagnation";
        
-       setData({
+       healthData = {
          aqi: val,
          risk_status: riskStatus,
          effects: {
@@ -65,21 +69,41 @@ function HealthRisks({ aqiData, city, API_BASE }) {
             cardiac: val > 150 ? ["Tightness in chest", "Increased BP"] : ["No known risks"]
          },
          recommendations: ["Use AirSense filtration", "Monitor trend indices"]
-       });
-       setLoading(false);
-       return;
+       };
+    } else {
+      try {
+        const res = await axios.get(`${API_BASE}/aqi/health/${city}`);
+        if (res.data.status === "success") {
+          healthData = res.data.data;
+        }
+      } catch (err) { console.error(err); }
     }
-    setLoading(true);
-    try {
-      const res = await axios.get(`${API_BASE}/aqi/health/${city}`);
-      if (res.data.status === "success") {
-        setData(res.data.data);
-      }
-    } catch (err) { console.error(err); }
-    setLoading(false);
+
+    if (healthData) {
+      setData(healthData);
+      setLoading(false);
+      // Simulate "Thinking" / Neural Analysis
+      setTimeout(() => {
+        setIsThinking(false);
+      }, 1500); 
+    } else {
+      setLoading(false);
+      setIsThinking(false);
+    }
   };
 
-  if (loading) return <div className="h-96 flex items-center justify-center text-brand-red font-black uppercase tracking-widest animate-pulse">Checking health risks...</div>;
+  if (loading || isThinking) return (
+    <div className="h-[60vh] flex flex-col items-center justify-center gap-6">
+      <div className="relative">
+        <div className="w-16 h-16 rounded-full border-4 border-brand-red/10 border-t-brand-red animate-spin" />
+        <HeartIcon className="absolute inset-0 m-auto w-6 h-6 text-brand-red animate-pulse" />
+      </div>
+      <div className="text-center">
+        <p className="text-brand-red font-black uppercase tracking-[0.4em] text-xs">Neural Health Analysis</p>
+        <p className="text-slate-600 font-bold uppercase tracking-widest text-[9px] mt-2 italic">Scanning atmospheric bio-impact for {city}...</p>
+      </div>
+    </div>
+  );
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-12 pb-32">
