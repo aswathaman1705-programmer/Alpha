@@ -125,35 +125,44 @@ function HealthRisks({ aqiData, city, API_BASE }) {
            </div>
         </div>
 
-        {/* SUPREME PROTECTION simplified */}
+        {/* DYNAMIC AI RECOMMENDATIONS */}
         <div className="glass-panel p-6 md:p-8 bg-brand-blue/5 border-2 border-brand-blue/10">
             <div className="flex items-center gap-3 mb-8">
                <ShieldCheckIcon className="w-6 h-6 text-brand-blue" />
-               <h2 className="text-lg md:text-xl font-black text-white italic uppercase tracking-tighter">Safe Mode: Recommendations</h2>
+               <h2 className="text-lg md:text-xl font-black text-white italic uppercase tracking-tighter">Safe Mode for {city}</h2>
             </div>
             
             <div className="space-y-8">
-               <div className="flex gap-6">
-                  <div className="w-10 h-10 rounded-xl bg-brand-blue/20 flex items-center justify-center shrink-0 text-brand-blue font-black">1</div>
-                  <div>
-                    <h4 className="text-xs font-black uppercase tracking-widest text-white mb-2">Eat Healthy</h4>
-                    <p className="text-xs text-slate-400 font-bold leading-relaxed">Eat fruits like oranges and lemons. They help your body fight the effects of bad air.</p>
-                  </div>
-               </div>
-               <div className="flex gap-6">
-                  <div className="w-10 h-10 rounded-xl bg-brand-blue/20 flex items-center justify-center shrink-0 text-brand-blue font-black">2</div>
-                  <div>
-                    <h4 className="text-xs font-black uppercase tracking-widest text-white mb-2">Close Windows</h4>
-                    <p className="text-xs text-slate-400 font-bold leading-relaxed">Keep windows closed during early morning (4 AM to 8 AM) when the air is dirtiest.</p>
-                  </div>
-               </div>
-               <div className="flex gap-6">
-                  <div className="w-10 h-10 rounded-xl bg-brand-blue/20 flex items-center justify-center shrink-0 text-brand-blue font-black">3</div>
-                  <div>
-                    <h4 className="text-xs font-black uppercase tracking-widest text-white mb-2">Breathe Right</h4>
-                    <p className="text-xs text-slate-400 font-bold leading-relaxed">Try to breathe through your nose. Your nose helps filter the dust better than your mouth.</p>
-                  </div>
-               </div>
+               {(() => {
+                  const aqi = data.aqi;
+                  const recs = aqi <= 50 ? [
+                    { t: "Open Windows", d: `Conditions in ${city} are perfect. Allow high-purity air to circulate throughout your home to naturally detoxify indoor spaces.` },
+                    { t: "Maximum Exertion", d: "Great time for cardio or outdoor sports. Your lungs can process oxygen at peak efficiency with zero particulate resistance." },
+                    { t: "Deep Breathing", d: "Practice pranayama or deep breathing outdoors. The atmospheric count is at its safest level today." }
+                  ] : aqi <= 100 ? [
+                    { t: "Selective Outing", d: `Air is moderate. Enjoy ${city}'s parks but stay away from main roads where vehicle exhaust might pool in the heat.` },
+                    { t: "Dust Shield", d: "Wipe down indoor surfaces. Small amounts of dust are starting to settle; keep your living area clean to maintain indoor purity." },
+                    { t: "Hydration Lock", d: "Drink more fluids. Keeping your throat moist helps your body's natural filters trap the moderate particulates." }
+                  ] : aqi <= 150 ? [
+                    { t: "Sensitive Guard", d: `Sensitive groups in ${city} should cut outdoor time. If you feel a scratchy throat, return to a filtered environment immediately.` },
+                    { t: "N95 Recommended", d: "Standard masks aren't enough. Use a fitting N95 if you need to be outside for more than 30 minutes in these conditions." },
+                    { t: "HEPA Activation", d: "Run your air purifiers on medium-high. Seal any cracks in windows to prevent the hazy air from leaking inside." }
+                  ] : [
+                    { t: "Hazard Warning", d: `Dangerous air levels for all ${city} residents. Stay indoors and avoid all physical activity that increases breathing rate.` },
+                    { t: "Respirator Mandatory", d: "Do not step outside without a sealed KN95/N95 respirator. The fine particles are now at levels that can enter the bloodstream." },
+                    { t: "Clean Room Protocol", d: "Designate one room with an air purifier on 'Turbo' as a clean zone. Keep the door closed to maintain a breathable micro-climate." }
+                  ];
+
+                  return recs.map((r, i) => (
+                    <div key={i} className="flex gap-6">
+                      <div className="w-10 h-10 rounded-xl bg-brand-blue/20 flex items-center justify-center shrink-0 text-brand-blue font-black">{i + 1}</div>
+                      <div>
+                        <h4 className="text-xs font-black uppercase tracking-widest text-white mb-2">{r.t}</h4>
+                        <p className="text-[11px] text-slate-400 font-bold leading-relaxed">{r.d}</p>
+                      </div>
+                    </div>
+                  ));
+               })()}
             </div>
         </div>
       </div>
