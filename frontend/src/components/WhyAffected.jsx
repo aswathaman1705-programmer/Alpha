@@ -230,10 +230,10 @@ function WhyAffected({ aqiData, city, API_BASE }) {
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-10 pb-32">
       
       {/* HERO */}
-      <div className="relative overflow-hidden glass-panel p-10 flex items-end gap-8 min-h-[200px]">
+      <div className="relative overflow-hidden glass-panel p-6 md:p-10 flex flex-col md:flex-row items-center md:items-end gap-6 md:gap-8 min-h-[200px] text-center md:text-left">
         <div className="absolute inset-0 bg-gradient-to-br from-brand-blue/5 to-transparent pointer-events-none" />
         {/* Animated bars decoration */}
-        <div className="absolute top-6 right-8 flex items-end gap-1.5 opacity-20">
+        <div className="hidden md:flex absolute top-6 right-8 items-end gap-1.5 opacity-20">
           {[35, 55, 25, 70, 40, 80, 30, 60, 45, 90, 35, 65].map((h, i) => (
             <motion.div
               key={i}
@@ -244,23 +244,23 @@ function WhyAffected({ aqiData, city, API_BASE }) {
             />
           ))}
         </div>
-        <div>
+        <div className="flex flex-col items-center md:items-start">
           <div className="flex items-center gap-3 mb-3">
-            <ShieldCheckIcon className="w-8 h-8 text-brand-blue" />
+            <ShieldCheckIcon className="w-6 h-6 md:w-8 md:h-8 text-brand-blue" />
             <span className="text-[10px] font-black text-slate-500 uppercase tracking-widest">
               AI Diagnosis — {city}
             </span>
           </div>
-          <h1 className="text-5xl font-black tracking-tighter text-white uppercase italic leading-none">
+          <h1 className="text-3xl md:text-5xl font-black tracking-tighter text-white uppercase italic leading-none">
             Why is the air{" "}
             <span style={{ color: aqiColor }}>{aqiLabel}?</span>
           </h1>
-          <p className="text-slate-500 text-sm font-medium mt-3 max-w-xl">
+          <p className="text-slate-500 text-xs md:text-sm font-medium mt-3 max-w-xl">
             Real-time analysis generated from live sensor data and atmospheric conditions in {city}.
           </p>
         </div>
-        <div className="ml-auto text-right shrink-0">
-          <div className="text-6xl font-black" style={{ color: aqiColor }}>
+        <div className="md:ml-auto text-center md:text-right shrink-0">
+          <div className="text-5xl md:text-6xl font-black" style={{ color: aqiColor }}>
             {aqi || "—"}
           </div>
           <div className="text-[10px] font-black text-slate-500 uppercase tracking-widest">Live AQI</div>
@@ -275,7 +275,7 @@ function WhyAffected({ aqiData, city, API_BASE }) {
             AI-Identified Causes for {city} — Click to expand
           </h2>
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {content.causes.map((cause, i) => {
             const Icon = cause.Icon;
             const isOpen = expanded === i;
@@ -284,31 +284,31 @@ function WhyAffected({ aqiData, city, API_BASE }) {
                 key={i}
                 whileHover={{ y: -3 }}
                 onClick={() => setExpanded(isOpen ? null : i)}
-                className="glass-panel p-7 cursor-pointer relative overflow-hidden border-b-4 transition-all"
+                className="glass-panel p-6 md:p-7 cursor-pointer relative overflow-hidden border-b-4 transition-all"
                 style={{ borderBottomColor: cause.color }}
               >
                 <div className="absolute inset-0 bg-gradient-to-b from-transparent to-black/20 pointer-events-none" />
                 {/* Source %  bar */}
                 <div className="absolute top-0 left-0 h-1 rounded-t-xl transition-all" style={{ width: `${cause.pct}%`, backgroundColor: cause.color + "80" }} />
-                <div className="w-11 h-11 rounded-2xl flex items-center justify-center mb-4" style={{ backgroundColor: cause.color + "15" }}>
+                <div className="w-10 h-10 md:w-11 md:h-11 rounded-2xl flex items-center justify-center mb-4" style={{ backgroundColor: cause.color + "15" }}>
                   <Icon className="w-5 h-5" style={{ color: cause.color }} />
                 </div>
                 <span className="text-[9px] font-black uppercase tracking-widest mb-1 block" style={{ color: cause.color }}>
                   {cause.tag} · {cause.pct}%
                 </span>
-                <h3 className="text-lg font-black text-white mb-3 uppercase italic tracking-tight">{cause.title}</h3>
+                <h3 className="text-base md:text-lg font-black text-white mb-3 uppercase italic tracking-tight">{cause.title}</h3>
                 <AnimatePresence>
                   {isOpen ? (
                     <motion.p
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
                       exit={{ opacity: 0, height: 0 }}
-                      className="text-sm text-slate-300 font-medium leading-relaxed overflow-hidden"
+                      className="text-xs md:text-sm text-slate-300 font-medium leading-relaxed overflow-hidden"
                     >
                       {cause.text}
                     </motion.p>
                   ) : (
-                    <p className="text-xs text-slate-500 font-medium line-clamp-2">{cause.text.slice(0, 80)}…</p>
+                    <p className="text-[11px] md:text-xs text-slate-500 font-medium line-clamp-2">{cause.text.slice(0, 80)}…</p>
                   )}
                 </AnimatePresence>
                 <div className="flex justify-end mt-3 text-slate-600">
@@ -322,10 +322,10 @@ function WhyAffected({ aqiData, city, API_BASE }) {
 
       {/* SOLUTIONS + SIDE PANEL */}
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        <div className="lg:col-span-2 glass-panel p-8 border-t-4 border-green-500/50">
+        <div className="lg:col-span-2 glass-panel p-6 md:p-8 border-t-4 border-green-500/50">
           <div className="flex items-center gap-3 mb-8">
             <LightBulbIcon className="w-6 h-6 text-green-400" />
-            <h2 className="text-2xl font-black text-white uppercase italic tracking-tighter">
+            <h2 className="text-xl md:text-2xl font-black text-white uppercase italic tracking-tighter">
               What can you do?
             </h2>
           </div>
@@ -341,7 +341,7 @@ function WhyAffected({ aqiData, city, API_BASE }) {
                 <div className="w-8 h-8 rounded-xl bg-green-500/10 flex items-center justify-center text-green-400 font-black text-xs shrink-0">
                   {i + 1}
                 </div>
-                <p className="text-sm text-white font-medium leading-relaxed pt-0.5">{sol}</p>
+                <p className="text-xs md:text-sm text-white font-medium leading-relaxed pt-0.5">{sol}</p>
               </motion.div>
             ))}
           </div>

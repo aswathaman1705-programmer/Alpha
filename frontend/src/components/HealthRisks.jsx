@@ -83,12 +83,12 @@ function HealthRisks({ aqiData, city, API_BASE }) {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-12 pb-32">
-      <header className="flex items-center gap-6">
-        <div className="w-16 h-16 bg-brand-red/10 rounded-2xl flex items-center justify-center border border-brand-red/20 shadow-[0_0_20px_#FF6B6B20]">
-           <HeartIcon className="w-8 h-8 text-brand-red" />
+      <header className="flex flex-col md:flex-row items-center md:items-start gap-4 md:gap-6 text-center md:text-left">
+        <div className="w-14 h-14 md:w-16 md:h-16 bg-brand-red/10 rounded-2xl flex items-center justify-center border border-brand-red/20 shadow-[0_0_20px_#FF6B6B20]">
+           <HeartIcon className="w-7 h-7 md:w-8 md:h-8 text-brand-red" />
         </div>
         <div>
-          <h1 className="text-4xl font-black tracking-tighter text-white uppercase italic">Health <span className="text-brand-red">Safety</span></h1>
+          <h1 className="text-3xl md:text-4xl font-black tracking-tighter text-white uppercase italic">Health <span className="text-brand-red">Safety</span></h1>
           <p className="text-slate-500 font-bold uppercase tracking-[0.2em] text-[10px] mt-1">Simple Health Advice for {city}</p>
         </div>
       </header>
@@ -126,10 +126,10 @@ function HealthRisks({ aqiData, city, API_BASE }) {
         </div>
 
         {/* SUPREME PROTECTION simplified */}
-        <div className="glass-panel p-8 bg-brand-blue/5 border-2 border-brand-blue/10">
+        <div className="glass-panel p-6 md:p-8 bg-brand-blue/5 border-2 border-brand-blue/10">
             <div className="flex items-center gap-3 mb-8">
                <ShieldCheckIcon className="w-6 h-6 text-brand-blue" />
-               <h2 className="text-xl font-black text-white italic uppercase tracking-tighter">Safe Mode: Recommendations</h2>
+               <h2 className="text-lg md:text-xl font-black text-white italic uppercase tracking-tighter">Safe Mode: Recommendations</h2>
             </div>
             
             <div className="space-y-8">

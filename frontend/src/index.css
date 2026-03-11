@@ -33,17 +33,10 @@
 
 @layer base {
   html {
-    /* Set default zoom to 80% globally for large screens / normal desktop view */
-    font-size: 80%;
-  }
-
-  @media (max-width: 768px) {
-    html {
-      /* On mobile, slightly increase the baseline size to make texts more readable */
-      font-size: 95%;
+    @media (min-width: 768px) {
+      font-size: 85%; /* Scales the entire UI to ~85% for desktop as requested */
     }
   }
-
   body {
     @apply bg-slate-950 text-white font-sans antialiased;
     background-image: 
@@ -51,7 +44,6 @@
       radial-gradient(circle at 80% 80%, rgba(255, 107, 107, 0.03) 0%, transparent 40%),
       radial-gradient(circle at 50% 50%, rgba(15, 23, 42, 1) 0%, rgba(7, 10, 18, 1) 100%);
     min-height: 100vh;
-    /* Increase default text readability for standard body text */
     letter-spacing: 0.02em;
   }
 }

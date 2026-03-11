@@ -45,18 +45,18 @@ function SourceAnalysis({ city, API_BASE }) {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-12 pb-32">
-      <header className="text-center">
-        <h1 className="text-4xl font-black mb-2 tracking-tighter uppercase italic text-white">Where is the <span className="text-brand-blue">pollution</span> from?</h1>
+      <header className="text-center px-4">
+        <h1 className="text-3xl md:text-4xl font-black mb-2 tracking-tighter uppercase italic text-white leading-tight">Where is the <span className="text-brand-blue">pollution</span> from?</h1>
         <p className="text-slate-500 font-bold uppercase tracking-[0.2em] text-[10px]">Source breakdown for {city}</p>
       </header>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
         {/* RING CHART — no framer-motion animate on cells to prevent freeze */}
-        <div className="glass-panel h-[420px] flex flex-col items-center justify-center relative">
+        <div className="glass-panel h-[320px] md:h-[420px] flex flex-col items-center justify-center relative">
           {/* Static center label — does NOT overlap the chart */}
           <div className="absolute inset-0 flex flex-col items-center justify-center pointer-events-none select-none" style={{ zIndex: 1 }}>
-            <span className="text-xl font-black text-white">Breakdown</span>
-            <span className="text-[9px] font-black text-slate-500 uppercase tracking-widest mt-1">Hover to inspect</span>
+            <span className="text-lg md:text-xl font-black text-white">Breakdown</span>
+            <span className="text-[8px] md:text-[9px] font-black text-slate-500 uppercase tracking-widest mt-1">Tap sections</span>
           </div>
 
           {/* Chart sits on top via z-index: 2 */}
@@ -65,8 +65,8 @@ function SourceAnalysis({ city, API_BASE }) {
               <PieChart>
                 <Pie
                   data={data}
-                  innerRadius={100}
-                  outerRadius={148}
+                  innerRadius={70}
+                  outerRadius={110}
                   paddingAngle={5}
                   dataKey="value"
                   stroke="none"

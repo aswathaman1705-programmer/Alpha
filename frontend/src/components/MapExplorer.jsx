@@ -241,9 +241,9 @@ function MapExplorer({ aqiData, citiesWithAqi, API_BASE, onCitySelect, currentCi
   }, [cityNodes, citiesWithAqi, zoom, selectedNode, nodeClickHandlers]);
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="relative h-[calc(100vh-140px)] overflow-hidden flex gap-0 rounded-3xl bg-slate-950">
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="relative h-[calc(100vh-120px)] md:h-[calc(100vh-140px)] overflow-hidden flex flex-col md:flex-row gap-0 md:rounded-3xl bg-slate-950">
 
-      {/* LEFT INFO PANEL */}
+      {/* LEFT INFO PANEL - Responsive Overlay */}
       <AnimatePresence>
         {selectedNode && (
           <motion.div
@@ -251,13 +251,13 @@ function MapExplorer({ aqiData, citiesWithAqi, API_BASE, onCitySelect, currentCi
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: -380, opacity: 0 }}
             transition={{ type: "spring", stiffness: 180, damping: 28 }}
-            className="w-80 shrink-0 bg-[#0a0f1e]/95 backdrop-blur-3xl border-r border-white/5 flex flex-col z-[100] relative shadow-[20px_0_50px_rgba(0,0,0,0.5)]"
+            className="fixed md:relative inset-y-0 left-0 w-full md:w-80 shrink-0 bg-[#0a0f1e]/98 backdrop-blur-3xl border-r border-white/5 flex flex-col z-[200] md:z-[100] shadow-[20px_0_50px_rgba(0,0,0,0.5)]"
           >
             <button onClick={() => setSelectedNode(null)} className="absolute top-6 right-6 p-2 rounded-xl hover:bg-white/5 text-slate-500 hover:text-white transition-all">
               <XMarkIcon className="w-5 h-5" />
             </button>
 
-            <div className="p-10 flex-1 space-y-10 overflow-y-auto custom-scrollbar">
+            <div className="p-6 md:p-10 flex-1 space-y-8 md:space-y-10 overflow-y-auto custom-scrollbar">
               <div className="space-y-4">
                  <div className="flex items-center gap-2 px-3 py-1.5 rounded-full w-fit bg-brand-blue/10 border border-brand-blue/20">
                     <div className="w-1.5 h-1.5 rounded-full bg-brand-blue animate-pulse" />
@@ -265,7 +265,7 @@ function MapExplorer({ aqiData, citiesWithAqi, API_BASE, onCitySelect, currentCi
                  </div>
                  <div>
                     <p className="text-[10px] font-black text-slate-500 uppercase tracking-widest mb-1">{selectedNode.country}</p>
-                    <h2 className="text-5xl font-black text-white uppercase italic tracking-tighter leading-none">{selectedNode.city}</h2>
+                    <h2 className="text-4xl md:text-5xl font-black text-white uppercase italic tracking-tighter leading-none">{selectedNode.city}</h2>
                  </div>
               </div>
 
@@ -317,8 +317,8 @@ function MapExplorer({ aqiData, citiesWithAqi, API_BASE, onCitySelect, currentCi
           )}
         </AnimatePresence>
 
-        {/* Search & Filter Engine */}
-        <div className="absolute top-8 right-8 z-[100] w-80 space-y-3">
+        {/* Search & Filter Engine - Responsive Position */}
+        <div className="absolute top-4 md:top-8 right-4 md:right-8 z-[100] w-[calc(100%-32px)] md:w-80 space-y-3">
           {/* Filters */}
           <div className="flex gap-2 justify-end">
              {['all', 'good', 'moderate', 'bad'].map(f => (
@@ -375,8 +375,8 @@ function MapExplorer({ aqiData, citiesWithAqi, API_BASE, onCitySelect, currentCi
           )}
         </div>
 
-        {/* Legend */}
-        <div className="absolute bottom-8 right-8 z-[100] glass-panel bg-[#0a0f1e]/80 backdrop-blur-3xl px-6 py-4 flex items-center gap-6 rounded-[2rem] border border-white/5 shadow-2xl">
+        {/* Legend - Responsive */}
+        <div className="absolute bottom-20 md:bottom-8 right-4 md:right-8 z-[40] glass-panel bg-[#0a0f1e]/80 backdrop-blur-3xl px-4 md:px-6 py-3 md:py-4 flex flex-wrap md:flex-nowrap items-center justify-center gap-4 md:gap-6 rounded-2xl md:rounded-[2rem] border border-white/5 shadow-2xl">
           {[["#00E400","Good"],["#FFFF00","Mod"],["#FF7E00","Sens"],["#FF0000","Bad"],["#7E0023","Haz"]].map(([c,l]) => (
             <div key={c} className="flex items-center gap-2">
               <div className="w-2 h-2 rounded-full" style={{ backgroundColor: c, boxShadow: `0 0 10px ${c}` }} />

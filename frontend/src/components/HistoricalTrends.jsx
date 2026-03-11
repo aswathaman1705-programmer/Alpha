@@ -95,9 +95,9 @@ function HistoricalTrends({ city, API_BASE }) {
 
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-10 pb-32">
-      <header className="flex flex-col md:flex-row justify-between items-end gap-6">
+      <header className="flex flex-col md:flex-row justify-between items-center md:items-end gap-6 text-center md:text-left">
         <div>
-          <h1 className="text-4xl font-black tracking-tighter text-white uppercase italic">Yearly <span className="text-brand-blue">Analysis for {city}</span></h1>
+          <h1 className="text-3xl md:text-4xl font-black tracking-tighter text-white uppercase italic">Yearly <span className="text-brand-blue">Analysis for {city}</span></h1>
           <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] mt-2 italic shadow-sm">Historical Environmental Record · Long-Term Trends</p>
         </div>
 
@@ -144,14 +144,14 @@ function HistoricalTrends({ city, API_BASE }) {
       </header>
 
       {/* QUICK STATS ROW */}
-      <div className="grid grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 md:gap-6">
         {[
           { label: "Peak Year", value: peakYear?.year || "—", sub: `AQI ${peakYear?.aqi || "—"}`, color: "#FF6B6B" },
           { label: "Change", value: `${changeDir} ${Math.abs(latestAqi - earliestAqi)}`, sub: "over period", color: "#FFD600" },
           { label: "Current AQI", value: latestAqi || "—", sub: "2026 estimate", color: "#54A0FF" }
         ].map(stat => (
-          <div key={stat.label} className="glass-panel p-6 text-center">
-            <div className="text-3xl font-black mb-1" style={{ color: stat.color }}>{stat.value}</div>
+          <div key={stat.label} className="glass-panel p-4 md:p-6 text-center">
+            <div className="text-2xl md:text-3xl font-black mb-1" style={{ color: stat.color }}>{stat.value}</div>
             <div className="text-[9px] font-black text-white uppercase tracking-widest">{stat.label}</div>
             <div className="text-[9px] text-slate-500 mt-1">{stat.sub}</div>
           </div>
@@ -159,8 +159,8 @@ function HistoricalTrends({ city, API_BASE }) {
       </div>
 
       {/* CHART */}
-      <div className="glass-panel p-8 h-[420px] flex flex-col">
-        <h3 className="text-xs font-black text-slate-500 uppercase tracking-widest mb-8">Air Quality Level (Yearly Average)</h3>
+      <div className="glass-panel p-4 md:p-8 h-[350px] md:h-[420px] flex flex-col">
+        <h3 className="text-xs font-black text-slate-500 uppercase tracking-widest mb-6 md:mb-8">Air Quality Level (Yearly Average)</h3>
         {loading ? (
           <div className="flex-1 flex items-center justify-center">
             <div className="w-8 h-8 rounded-full border-2 border-brand-blue/20 border-t-brand-blue animate-spin" />

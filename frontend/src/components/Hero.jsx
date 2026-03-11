@@ -5,19 +5,19 @@ import { ShieldCheckIcon, GlobeAmericasIcon, ArrowRightIcon } from "@heroicons/r
 
 export default function Hero() {
   return (
-    <div className="relative min-h-[85vh] flex flex-col items-center justify-center -mt-10 overflow-hidden">
+    <div className="relative min-h-[70vh] md:min-h-[80vh] flex flex-col items-center justify-center overflow-hidden">
       
       {/* BACKGROUND ELEMENTS */}
-      <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
+      <div className="absolute inset-0 pointer-events-none flex items-center justify-center overflow-hidden">
         <motion.div 
           animate={{ rotate: 360 }}
           transition={{ duration: 100, repeat: Infinity, ease: "linear" }}
-          className="w-[800px] h-[800px] border border-white/5 rounded-full absolute"
+          className="w-[300px] h-[300px] sm:w-[500px] sm:h-[500px] md:w-[800px] md:h-[800px] border border-white/5 rounded-full absolute"
         />
         <motion.div 
           animate={{ rotate: -360 }}
           transition={{ duration: 150, repeat: Infinity, ease: "linear" }}
-          className="w-[1200px] h-[1200px] border border-white/[0.02] rounded-full absolute border-dashed"
+          className="w-[500px] h-[500px] sm:w-[800px] sm:h-[800px] md:w-[1200px] md:h-[1200px] border border-white/[0.02] rounded-full absolute border-dashed"
         />
       </div>
 
@@ -47,7 +47,7 @@ export default function Hero() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-7xl md:text-8xl font-black uppercase italic tracking-tighter text-white leading-[0.9] mb-8"
+          className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-black uppercase italic tracking-tighter text-white leading-[0.9] mb-6 md:mb-10"
         >
           Urban Air Quality <br />
           <span className="text-transparent bg-clip-text bg-gradient-to-r from-brand-blue via-white to-brand-blue bg-[length:200%_auto] animate-shimmer">
@@ -68,7 +68,7 @@ export default function Hero() {
            initial={{ opacity: 0, y: 20 }}
            animate={{ opacity: 1, y: 0 }}
            transition={{ duration: 0.8, delay: 0.8 }}
-           className="flex flex-col sm:flex-row items-center gap-6"
+           className="flex flex-col sm:flex-row items-center gap-6 mb-16 md:mb-24"
         >
           <Link to="/dashboard" className="group relative">
             <div className="absolute -inset-1 bg-gradient-to-r from-brand-blue to-blue-600 rounded-2xl blur opacity-40 group-hover:opacity-100 transition duration-500 group-hover:duration-200" />
@@ -92,17 +92,17 @@ export default function Hero() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 0.6 }}
         transition={{ duration: 2, delay: 1 }}
-        className="absolute bottom-10 left-10 md:left-20 flex gap-12 border-t border-white/10 pt-8"
+        className="flex flex-row flex-wrap justify-center md:justify-start gap-10 md:gap-20 border-t border-white/10 pt-10 mt-8 mb-12 relative z-10 w-full max-w-3xl px-6"
       >
-        <div>
+        <div className="flex flex-col items-center md:items-start">
           <div className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em] mb-2">Live Nodes</div>
           <div className="text-3xl text-white font-light tracking-tighter">194+</div>
         </div>
-        <div>
+        <div className="flex flex-col items-center md:items-start">
           <div className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em] mb-2">Latency</div>
           <div className="text-3xl text-brand-blue font-light tracking-tighter">12ms</div>
         </div>
-        <div>
+        <div className="flex flex-col items-center md:items-start">
           <div className="text-[10px] text-slate-500 font-black uppercase tracking-[0.2em] mb-2">Algorithm</div>
           <div className="text-3xl text-white font-light tracking-tighter">ML_v2</div>
         </div>

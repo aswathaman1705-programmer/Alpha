@@ -241,15 +241,16 @@ function Forecast({ aqiData, city, API_BASE }) {
   return (
     <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="space-y-8 pb-32">
       {/* HEADER */}
-      <header className="flex flex-col md:flex-row justify-between items-end gap-6">
+      <header className="flex flex-col md:flex-row justify-between items-center md:items-end gap-6 text-center md:text-left">
         <div>
-          <h1 className="text-4xl font-black tracking-tighter uppercase italic text-white flex items-center gap-3">
-            <ClockIcon className="w-9 h-9 text-brand-blue" />
-            Neural 24H Forecast <span className="text-brand-blue">in {city}</span>
+          <h1 className="text-2xl md:text-4xl font-black tracking-tighter uppercase italic text-white flex flex-col md:flex-row items-center gap-3">
+            <div className="flex items-center gap-3">
+              <ClockIcon className="w-8 h-8 md:w-9 md:h-9 text-brand-blue" />
+              <span>Neural 24H Forecast</span>
+            </div>
+            <span className="text-brand-blue md:ml-0">in {city}</span>
           </h1>
-          <p className="text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] mt-2 italic shadow-sm">AI-Driven Temporal Prediction Engine
-· {count} {mode} history + 24H AI forecast
-          </p>
+          <p className="text-[9px] md:text-[10px] font-black text-slate-500 uppercase tracking-[0.4em] mt-2 italic shadow-sm">AI-Driven Temporal Prediction Engine · {count} {mode} history + 24H AI forecast</p>
         </div>
 
         {/* RANGE CONTROLS */}
@@ -319,9 +320,9 @@ function Forecast({ aqiData, city, API_BASE }) {
         ))}
       </div>
 
-      <div className="flex gap-8 items-start relative min-h-[580px]">
+      <div className="flex flex-col lg:flex-row gap-8 items-start relative min-h-[500px]">
         {/* MAIN CHART AREA - Flex-grow for dynamic sizing */}
-        <div className="flex-1 glass-panel p-8 relative overflow-hidden">
+        <div className="w-full lg:flex-1 glass-panel p-4 md:p-8 relative overflow-hidden">
           <div className="flex items-center justify-between mb-6">
             <div className="flex items-center gap-4">
               <div>
@@ -395,15 +396,15 @@ function Forecast({ aqiData, city, API_BASE }) {
           </div>
         </div>
 
-        {/* DETAIL PANEL - Side-by-Side Slide-In */}
+        {/* DETAIL PANEL - Side-by-Side Slide-In or Mobile Overlay */}
         <AnimatePresence>
           {showDetail && selectedPollutant && (
             <motion.div
               initial={{ width: 0, opacity: 0, x: 20 }}
-              animate={{ width: 420, opacity: 1, x: 0 }}
+              animate={{ width: "min(420px, 100%)", opacity: 1, x: 0 }}
               exit={{ width: 0, opacity: 0, x: 20 }}
               transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="shrink-0 glass-panel flex flex-col border-l-4 overflow-hidden relative min-h-[580px]"
+              className="w-full md:w-[420px] lg:shrink-0 glass-panel flex flex-col border-l-4 overflow-hidden relative min-h-[500px] md:min-h-[580px]"
               style={{ borderLeftColor: selectedPollutant.color }}
             >
               <div className="p-10 w-[420px] h-full flex flex-col space-y-8 overflow-y-auto custom-scrollbar">
